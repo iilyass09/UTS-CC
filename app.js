@@ -30,7 +30,7 @@ const db = mysql.createConnection({
 
 db.connect(err => {
   if (err) {
-    console.error('Gagal koneksi ke database HAHAHA:', err);
+    console.error('Gagal koneksi ke database HAHAHA gblk:', err);
   } else {
     console.log('Terhubung ke database MySQL RDS');
   }
