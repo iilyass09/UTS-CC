@@ -27,11 +27,14 @@ jobs:
           sudo chown -R ec2-user:ec2-user /var/www/html/UTS-CC
           sudo chmod -R 755 /var/www/html/UTS-CC
 
+          # Menyimpan perubahan lokal jika ada
+          git stash || true  # Jika tidak ada perubahan, git stash tidak akan error
+
           # Menarik pembaruan dari repository
           git pull origin main
 
           # Mengembalikan perubahan lokal yang disimpan
-          git stash pop
+          git stash pop || true
 
           # Restart layanan HTTPD
           sudo systemctl restart httpd
