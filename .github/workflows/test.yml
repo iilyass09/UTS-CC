@@ -1,0 +1,42 @@
+name: Deploy App
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Buat file private key dari Secret
+      run: |
+        echo "${{ secrets.EC2_KEY }}" > key.pem
+        chmod 600 key.pem
+
+    - name: Upload Frontend to EC2
+      run: |
+        scp -i key.pem -o StrictHostKeyChecking=no -r frontend ec2-user@${{ secrets.FE_HOST }}:/tmp/
+        scp -i key.pem -o StrictHostKeyChecking=no -r backend ec2-user@${{ secrets.FE_HOST }}:/tmp/
+        ssh -i key.pem -o StrictHostKeyChecking=no ec2-user@${{ secrets.FE_HOST }} "\
+          sudo rm -rf /var/www/html/frontend /var/www/html/backend && \
+          sudo cp -r /tmp/frontend /var/www/html/frontend && \
+          sudo cp -r /tmp/backend /var/www/html/backend && \
+          sudo chown -R apache:apache /var/www/html && \
+          sudo chmod -R 755 /var/www/html"
+
+
+    - name: Upload Backend to Backend EC2 via Frontend EC2
+      run: |
+        ssh -i key.pem -o StrictHostKeyChecking=no ec2-user@${{ secrets.FE_HOST }} "\
+          sudo chown -R ec2-user:ec2-user /var/www/html/backend && \
+          chmod -R u+rwX /var/www/html/backend && \
+          cd /var/www/html/backend && \
+          npm install && \
+          scp -i /ariq_key.pem -o StrictHostKeyChecking=no -r /var/www/html/backend ec2-user@${{ secrets.BE_HOST }}:/ && \
+          ssh -i ~/ariq_key.pem -o StrictHostKeyChecking=no ec2-user@${{ secrets.BE_HOST }} '\
+            cd ~/backend && \
+            node ~/node_bundle/pm2/bin/pm2 restart all || node ~/node_bundle/pm2/bin/pm2 start index.js'"
