@@ -25,5 +25,5 @@ jobs:
         git config --global --add safe.directory /var/www/html/UTS-CC
         git pull origin main
         sudo systemctl restart httpd
-        scp -i /ilyas.pem -o StrictHostKeyChecking=no /var/www/html/UTS-CC/app.js ec2-user@secrets.10.0.2.82:/home/ec2-user/UTS-CC
+        scp -i ilyas.pem -o StrictHostKeyChecking=no /var/www/html/UTS-CC/app.js ec2-user@10.0.2.82:/home/ec2-user/UTS-CC
         EOF
