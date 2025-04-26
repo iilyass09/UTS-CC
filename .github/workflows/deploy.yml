@@ -24,7 +24,7 @@ jobs:
         sudo su
         cd /var/www/html
         git pull origin main
-        sudo systemctl restart nginx
+        sudo systemctl restart httpd
         EOF
       env:
         ILYAS_SECRET: ${{ secrets.ILYAS_SECRET }}
