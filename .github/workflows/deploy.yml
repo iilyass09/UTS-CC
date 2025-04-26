@@ -21,10 +21,19 @@ jobs:
     - name: Deploy to 52.221.236.60
       run: |
         ssh -o StrictHostKeyChecking=no ec2-user@52.221.236.60 << 'EOF'
-        cd /var/www/html/UTS-CC
-        git config --global --add safe.directory /var/www/html/UTS-CC
-        git pull origin main
-        sudo systemctl restart httpd
-        cd ~
-        scp -i ilyas.pem -o StrictHostKeyChecking=no /var/www/html/UTS-CC/app.js ec2-user@10.0.2.82:/home/ec2-user/UTS-CC
+          # Masuk ke direktori dan perbaiki izin
+          cd /var/www/html/UTS-CC
+          git config --global --add safe.directory /var/www/html/UTS-CC
+          sudo chown -R ec2-user:ec2-user /var/www/html/UTS-CC
+          sudo chmod -R 755 /var/www/html/UTS-CC
+
+          # Menarik pembaruan dari repository
+          git pull origin main
+
+          # Restart layanan HTTPD
+          sudo systemctl restart httpd
+
+          # Kembali ke direktori home dan copy file app.js
+          cd ~
+          scp -i ilyas.pem -o StrictHostKeyChecking=no /var/www/html/UTS-CC/app.js ec2-user@10.0.2.82:/home/ec2-user/UTS-CC
         EOF
