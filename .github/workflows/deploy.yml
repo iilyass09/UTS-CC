@@ -25,6 +25,11 @@ jobs:
         cd /var/www/html/UTS-CC
         git pull origin main
         sudo systemctl restart httpd
+        ssh -o StrictHostKeyChecking=no ec2-user@10.0.2.82 << 'EOF'
+        sudo su
+        cd UTS-CC
+        git pull origin main
+        pm2 restart app
         EOF
       env:
         ILYAS_SECRET: ${{ secrets.ILYAS_SECRET }}
