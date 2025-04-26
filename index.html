@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Daftar Sepatu Adidas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f8;
+      margin: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .produk-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 0;
+      list-style: none;
+    }
+    .produk-item {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      width: 220px;
+      padding: 15px;
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+    .produk-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .produk-item img {
+      max-width: 100%;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+    .produk-nama {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #222;
+      margin-bottom: 8px;
+    }
+    .produk-harga {
+      font-size: 1rem;
+      color: #007bff;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <h1>Daftar Sepatu Adidas</h1>
+  <ul class="produk-list" id="produk-list"></ul>
+
+  <script>
+    // Ganti URL ini dengan IP backend kamu
+    const apiUrl = 'http://localhost:3000/api/sepatu';
+
+    async function fetchProduk() {
+      try {
+        const response = await fetch(apiUrl);
+        const produk = await response.json();
+
+        const produkList = document.getElementById('produk-list');
+        produkList.innerHTML = '';
+
+        produk.forEach(p => {
+          const li = document.createElement('li');
+          li.className = 'produk-item';
+          li.innerHTML = `
+            <img src="${p.gambar}" alt="${p.nama}" />
+            <div class="produk-city">${p.city}</div>
+            <div class="produk-size">${p.size}</div>
+            <div class="produk-harga">Rp${p.harga.toLocaleString('id-ID')}</div>
+          `;
+          produkList.appendChild(li);
+        });
+      } catch (error) {
+        console.error('Gagal mengambil data produk:', error);
+      }
+    }
+
+    fetchProduk();
+  </script>
+</body>
+</html>
