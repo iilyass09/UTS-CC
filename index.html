@@ -24,7 +24,7 @@
     .logo {
       font-size: 1.8rem;
       font-weight: bold;
-      color: #007bff;
+      color: #000; /* warna hitam */
       text-decoration: none;
     }
     nav {
@@ -78,19 +78,13 @@
       border-radius: 6px;
       margin-bottom: 10px;
     }
-    .produk-nama {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: #222;
-      margin-bottom: 5px;
-    }
     .produk-city, .produk-size {
-      font-size: 0.9rem;
+      font-size: 1rem;
       color: #555;
       margin-bottom: 4px;
     }
     .produk-harga {
-      font-size: 1rem;
+      font-size: 1.1rem;
       color: #007bff;
       font-weight: 700;
       margin-top: 6px;
@@ -129,11 +123,10 @@
           const li = document.createElement('li');
           li.className = 'produk-item';
           li.innerHTML = `
-            <img src="${p.gambar}" alt="${p.nama}" />
-            <div class="produk-nama">${p.nama}</div>
+            <img src="${p.gambar}" alt="${p.city}" />
             <div class="produk-city">${p.city}</div>
             <div class="produk-size">Size: ${p.size}</div>
-            <div class="produk-harga">Rp${p.harga.toLocaleString('id-ID')}</div>
+            <div class="produk-harga">Rp ${p.harga.toLocaleString('id-ID')}</div>
           `;
           produkList.appendChild(li);
         });
