@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Daftar Sepatu Adidas</title>
 
+  <!-- Load Google Font: Poppins -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Load Font Awesome buat icon keranjang -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
   <style>
@@ -16,8 +18,8 @@
       padding: 0;
     }
     header {
-      background-color: #fff;
-      padding: 10px 20px;
+      background-color: #ffffff;
+      padding: 15px 30px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -27,19 +29,19 @@
       z-index: 100;
     }
     .logo {
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       font-weight: 700;
       color: #000;
       text-decoration: none;
     }
     nav {
       display: flex;
-      gap: 15px;
+      gap: 20px;
     }
     nav a {
       text-decoration: none;
       color: #333;
-      font-size: 0.95rem;
+      font-size: 1rem;
       font-weight: 500;
       transition: color 0.2s ease;
     }
@@ -47,18 +49,18 @@
       color: #007bff;
     }
     main {
-      padding: 20px 10px;
+      padding: 30px 20px;
     }
     h1 {
       text-align: center;
       color: #333;
-      margin-bottom: 20px;
-      font-size: 1.5rem;
+      margin-bottom: 30px;
+      font-size: 1.8rem;
     }
     .produk-list {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 15px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
       padding: 0;
       list-style: none;
       margin: 0 auto;
@@ -67,66 +69,65 @@
     .produk-item {
       background-color: #fff;
       border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-      padding: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 15px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       transition: transform 0.2s ease;
-      min-height: 260px;
     }
     .produk-item:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
     .produk-item img {
       max-width: 100%;
-      height: 120px;
+      height: 180px;
       object-fit: cover;
       border-radius: 6px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
     .produk-info {
       text-align: left;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
     .produk-city {
-      font-size: 0.95rem;
+      font-size: 1rem;
       color: #333;
-      margin-bottom: 2px;
+      margin-bottom: 4px;
     }
     .produk-size {
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       color: #555;
-      margin-bottom: 2px;
+      margin-bottom: 4px;
     }
     .produk-harga {
-      font-size: 1rem;
+      font-size: 1.1rem;
       color: #007bff;
       font-weight: 700;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
     .btn-checkout {
       background-color: #007bff;
       color: #fff;
       border: none;
       border-radius: 6px;
-      padding: 8px;
+      padding: 10px;
       width: 100%;
-      font-size: 0.9rem;
+      font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
       transition: background-color 0.3s ease;
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
     }
     .btn-checkout:hover {
       background-color: #0056b3;
     }
     .btn-checkout i {
-      font-size: 1rem;
+      font-size: 1.2rem;
     }
   </style>
 </head>
@@ -143,12 +144,11 @@
   </header>
 
   <main>
-    <h2>Daftar Sepatu Adidas</h2>
     <ul class="produk-list" id="produk-list"></ul>
   </main>
 
   <script>
-    const apiUrl = '/api/sepatu'; // Ganti ke IP backend kamu
+    const apiUrl = '/api/sepatu'; // Ganti URL ini dengan IP backend kamu
 
     async function fetchProduk() {
       try {
