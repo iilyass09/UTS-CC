@@ -13,33 +13,35 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up SSH
+    - name: Setup SSH
       uses: webfactory/ssh-agent@v0.5.3
       with:
         ssh-private-key: ${{ secrets.ILYAS_SECRET }}
 
-    - name: Deploy to EC2 and Sync Backend
+    - name: Deploy and Sync Backend
       run: |
         ssh -o StrictHostKeyChecking=no ec2-user@52.221.236.60 << 'EOF'
-          echo "==== Masuk ke server 52.221.236.60 ===="
+          echo "==== Deploy Frontend di 52.221.236.60 ===="
 
-          # Masuk ke folder project
+          # Masuk ke direktori project
           cd /var/www/html/UTS-CC
 
-          # Pastikan git aman dan update file
+          # Update file dari GitHub
           git config --global --add safe.directory /var/www/html/UTS-CC
-          git fetch origin
+          git fetch origin main
           git reset --hard origin/main
 
-          # Perbaiki permission
+          # Ubah permission supaya aman
           sudo chown -R ec2-user:ec2-user /var/www/html/UTS-CC
           sudo chmod -R 755 /var/www/html/UTS-CC
 
-          # Restart Apache server
+          # Restart apache
           sudo systemctl restart httpd
 
-          # Copy app.js ke Backend server
-          echo "==== Mengirim app.js ke Backend 10.0.2.82 ===="
-          scp -o StrictHostKeyChecking=no /var/www/html/UTS-CC/app.js ec2-user@10.0.2.82:/home/ec2-user/UTS-CC/
+          echo "==== Kirim app.js ke 10.0.2.82 ===="
+
+          # Copy file ke server backend
+          scp -o StrictHostKeyChecking=no -i ~/ilyas.pem /var/www/html/UTS-CC/app.js ec2-user@10.0.2.82:/home/ec2-user/UTS-CC/
 
         EOF
+        
