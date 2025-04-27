@@ -18,24 +18,28 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.ILYAS_SECRET }}
 
-    - name: Deploy to EC2
+    - name: Deploy to EC2 and Sync Backend
       run: |
         ssh -o StrictHostKeyChecking=no ec2-user@52.221.236.60 << 'EOF'
-          # Masuk ke direktori project
+          echo "==== Masuk ke server 52.221.236.60 ===="
+
+          # Masuk ke folder project
           cd /var/www/html/UTS-CC
 
-          # Set safe directory supaya git aman
+          # Pastikan git aman dan update file
           git config --global --add safe.directory /var/www/html/UTS-CC
-
-          # Tarik perubahan terbaru
           git fetch origin
           git reset --hard origin/main
 
-          # Set permission (kalau perlu)
+          # Perbaiki permission
           sudo chown -R ec2-user:ec2-user /var/www/html/UTS-CC
           sudo chmod -R 755 /var/www/html/UTS-CC
 
-          # Restart server
+          # Restart Apache server
           sudo systemctl restart httpd
+
+          # Copy app.js ke Backend server
+          echo "==== Mengirim app.js ke Backend 10.0.2.82 ===="
+          scp -o StrictHostKeyChecking=no /var/www/html/UTS-CC/app.js ec2-user@10.0.2.82:/home/ec2-user/UTS-CC/
+
         EOF
-        
