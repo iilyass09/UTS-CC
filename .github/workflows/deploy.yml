@@ -3,7 +3,7 @@ name: Deploy to AWS EC2
 on:
   push:
     branches:
-      - main  # Trigger deployment on push to main branch
+      - main
 
 jobs:
   deploy:
@@ -18,28 +18,24 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.ILYAS_SECRET }}
 
-    - name: Deploy to 52.221.236.60
+    - name: Deploy to EC2
       run: |
         ssh -o StrictHostKeyChecking=no ec2-user@52.221.236.60 << 'EOF'
-          # Masuk ke direktori dan perbaiki izin
+          # Masuk ke direktori project
           cd /var/www/html/UTS-CC
+
+          # Set safe directory supaya git aman
           git config --global --add safe.directory /var/www/html/UTS-CC
+
+          # Tarik perubahan terbaru
+          git fetch origin
+          git reset --hard origin/main
+
+          # Set permission (kalau perlu)
           sudo chown -R ec2-user:ec2-user /var/www/html/UTS-CC
           sudo chmod -R 755 /var/www/html/UTS-CC
 
-          # Menyimpan perubahan lokal jika ada
-          git stash || true  # Jika tidak ada perubahan, git stash tidak akan error
-
-          # Menarik pembaruan dari repository
-          git pull origin main
-
-          # Mengembalikan perubahan lokal yang disimpan
-          git stash pop || true
-
-          # Restart layanan HTTPD
+          # Restart server
           sudo systemctl restart httpd
-
-          # Kembali ke direktori home dan copy file app.js
-          cd ~
-          scp -i ilyas.pem -o StrictHostKeyChecking=no /var/www/html/UTS-CC/app.js ec2-user@10.0.2.82:/home/ec2-user/UTS-CC
         EOF
+        
