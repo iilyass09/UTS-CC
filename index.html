@@ -4,12 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Daftar Sepatu Adidas</title>
-
+  
   <!-- Load Google Font: Poppins -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <!-- Load Font Awesome buat icon keranjang -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-
+  
   <style>
     body {
       font-family: 'Poppins', sans-serif;
@@ -29,6 +27,7 @@
       z-index: 100;
     }
     .logo {
+      font-family: 'Poppins', sans-serif;
       font-size: 1.8rem;
       font-weight: 700;
       color: #000;
@@ -39,6 +38,7 @@
       gap: 20px;
     }
     nav a {
+      font-family: 'Poppins', sans-serif;
       text-decoration: none;
       color: #333;
       font-size: 1rem;
@@ -59,7 +59,7 @@
     }
     .produk-list {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 20px;
       padding: 0;
       list-style: none;
@@ -70,10 +70,8 @@
       background-color: #fff;
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
       padding: 15px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
       transition: transform 0.2s ease;
     }
     .produk-item:hover {
@@ -87,17 +85,8 @@
       border-radius: 6px;
       margin-bottom: 10px;
     }
-    .produk-info {
-      text-align: left;
-      margin-bottom: 10px;
-    }
-    .produk-city {
+    .produk-city, .produk-size {
       font-size: 1rem;
-      color: #333;
-      margin-bottom: 4px;
-    }
-    .produk-size {
-      font-size: 0.9rem;
       color: #555;
       margin-bottom: 4px;
     }
@@ -105,29 +94,7 @@
       font-size: 1.1rem;
       color: #007bff;
       font-weight: 700;
-      margin-bottom: 8px;
-    }
-    .btn-checkout {
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      padding: 10px;
-      width: 100%;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-    }
-    .btn-checkout:hover {
-      background-color: #0056b3;
-    }
-    .btn-checkout i {
-      font-size: 1.2rem;
+      margin-top: 6px;
     }
   </style>
 </head>
@@ -144,6 +111,7 @@
   </header>
 
   <main>
+    <h1>Daftar Sepatu Adidas</h1>
     <ul class="produk-list" id="produk-list"></ul>
   </main>
 
@@ -163,14 +131,9 @@
           li.className = 'produk-item';
           li.innerHTML = `
             <img src="${p.gambar}" alt="${p.city}" />
-            <div class="produk-info">
-              <div class="produk-city">${p.city}</div>
-              <div class="produk-size">Size: ${p.size}</div>
-              <div class="produk-harga">Rp ${p.harga.toLocaleString('id-ID')}</div>
-            </div>
-            <button class="btn-checkout">
-              <i class="fas fa-shopping-cart"></i> Checkout
-            </button>
+            <div class="produk-city">${p.city}</div>
+            <div class="produk-size">Size: ${p.size}</div>
+            <div class="produk-harga">Rp ${p.harga.toLocaleString('id-ID')}</div>
           `;
           produkList.appendChild(li);
         });
